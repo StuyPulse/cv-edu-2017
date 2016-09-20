@@ -1,0 +1,82 @@
+<project name="stuyvisionExample" default="compile-and-run" basedir=".">
+    <!--
+        Before running for the first time, run the following (but
+        use two dashes):
+        $ sudo update-alternatives -config java
+        $ sudo update-alternatives -config javac
+        and choose Java 8
+
+        If your JRE does not include the JavaFX runtime (jfxrt.jar), you must
+        put a property version of a `jfxrt.jar' in `lib/'.
+
+        Be sure to symlink `lib/opencv-3.0.0' to the opencv installation folder,
+        or to install it directly in `lib/'. OpenCV installation instructions in
+        README.md of `github.com/Team694/stuyvision-lib'
+    -->
+    <property name="projectName" value="stuyvisionExample" />
+    <property name="src.dir" value="src" />
+    <property name="build.dir" value="build" />
+
+    <property name="opencv_home" value="lib/opencv-3.0.0" />
+    <property name="opencv_lib" value="${opencv_home}/build/lib" />
+
+    <property name="opencv" value="${opencv_home}/build/bin/opencv-300.jar" />
+    <property name="javafx" value="lib/jfxrt.jar" />
+    <property name="stuyvision" value="lib/stuyvision.jar" />
+
+    <property name="camera" value="0" /> <!-- -Dcamera=X corresponds to /dev/videoX -->
+
+    <path id="classpath">
+        <pathelement path="${opencv}" />
+        <pathelement path="${javafx}" />
+        <pathelement path="${stuyvision}" />
+        <pathelement path="${build.dir}" />
+    </path>
+
+    <target name="compile-and-run" depends="compile, run" />
+
+    <target name="run">
+        <java classname="Main"
+            classpathref="classpath"
+            dir="${build.dir}"
+            failonerror="true"
+            fork="true">
+            <!-- fork="true" ensures ant looks at working directory. Without
+                this, System.loadLibrary cannot find opencv in java.library.path -->
+            <sysproperty key="java.library.path" path="${opencv_lib}" />
+        </java>
+    </target>
+
+    <target name="configure-camera">
+        <exec executable="/bin/bash">
+            <arg value="setup-camera.sh" />
+            <arg value="-d ${camera}" />
+        </exec>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}"
+            destdir="${build.dir}"
+            source="1.8"
+            target="1.8"
+            verbose="true"
+            classpathref="classpath"
+            includeantruntime="false" />
+        <copy todir="${build.dir}">
+            <fileset dir="${src.dir}">
+                <include name="**/*.fxml" />
+                <include name="**/*.css" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="init">
+        <delete dir="${build.dir}" />
+        <mkdir dir="${build.dir}" />
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.dir}" />
+        <delete dir="${distdir}" />
+    </target>
+</project>

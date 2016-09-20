@@ -1,0 +1,1 @@
+/home/wilson/694/stuy-vision-2016/setup-camera.sh
