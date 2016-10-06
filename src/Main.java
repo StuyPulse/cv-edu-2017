@@ -12,10 +12,4 @@ public class Main {
         runner.addMapping(new DeviceCaptureSource(0), new Simple(), new NoOp());
         VisionGui.begin(args, runner);
     }
-
-    private static void runSingle(String[] args, int videoN, VisionModule module) {
-        ModuleRunner runner = new ModuleRunner();
-        runner.addMapping(new DeviceCaptureSource(videoN), module);
-        VisionGui.begin(args, runner);
-    }
 }
