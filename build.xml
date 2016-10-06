@@ -47,13 +47,6 @@
         </java>
     </target>
 
-    <target name="configure-camera">
-        <exec executable="/bin/bash">
-            <arg value="setup-camera.sh" />
-            <arg value="-d ${camera}" />
-        </exec>
-    </target>
-
     <target name="compile" depends="init">
         <javac srcdir="${src.dir}"
             destdir="${build.dir}"
