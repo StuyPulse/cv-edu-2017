@@ -9,7 +9,7 @@ import stuyvision.gui.VisionGui;
 public class Main {
     public static void main(String[] args) {
         ModuleRunner runner = new ModuleRunner();
-        runner.addMapping(new DeviceCaptureSource(0), new Simple(), new NoOp());
+        runner.addMapping(new DeviceCaptureSource(0), new NoOp(), new Simple(), new Vision());
         VisionGui.begin(args, runner);
     }
 }

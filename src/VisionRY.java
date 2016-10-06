@@ -11,12 +11,10 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
-// This calss is DRY--"Don't repeat yourself"--because the countContours method
-// handles GUI things if the GUI is running, and run simply calls
-// countContours. Thus countContours is the only place that logic is expressed.
-// For contrast, `Vision.java`'s countContours method does not handle the GUI,
-// and its logic is repeated in run() with the GUi handling.
-public class VisionDRY extends VisionModule {
+// This is the "Repeat Yourself" version of the Vision class.
+// See Vision.java for an explanation of why it is DRY.
+
+public class VisionRY extends VisionModule {
     public IntegerSliderVariable minHue = new IntegerSliderVariable("Min Hue", 75, 0, 255);
     public IntegerSliderVariable maxHue = new IntegerSliderVariable("Max Hue", 120, 0, 255);
 
@@ -62,36 +60,33 @@ public class VisionDRY extends VisionModule {
         return contours;
     }
 
-    // Centralized way:
     public int countContours(Mat frame) {
-        Mat frameCopy = null;
-        if (hasGuiApp()) {
-            frameCopy = frame.clone(); // Contours will be drawn on this
-            postImage(frame, "Camera Feed");
-        }
-
-        ArrayList<Mat> channels = hsvThreshold(frame, frame);
-        if (hasGuiApp()) {
-            postImage(channels.get(0), "Hue threshold");
-            postImage(channels.get(1), "Saturation threshold");
-            postImage(channels.get(2), "Value threshold");
-            postImage(frame, "Combined threshold");
-        }
-
+        hsvThreshold(frame, frame);
         removeNoise(frame, frame);
-        if (hasGuiApp()) { postImage(frame, "Dilate and erode"); }
-
         ArrayList<MatOfPoint> contours = getContours(frame);
-        int numContours = contours.size();
-        if (hasGuiApp()) {
-            Imgproc.drawContours(frameCopy, contours, -1, new Scalar(255, 0, 255), 2);
-            postImage(frameCopy, "Contours");
-            postTag("Contours", "contourCount", "Contours: " + numContours);
-        }
-        return numContours;
+        return contours.size();
     }
 
+    // Note that the sequence of actions in `countContours` is repeated in
+    // `run`, with calls to GUI functions (`postImage`, `postTag)`
+    // interspersed.
     public void run(Mat frame) {
-        countContours(frame);
+        Mat frameCopy = frame.clone(); // Contours will be drawn on this
+
+        postImage(frame, "Camera Feed");
+
+        ArrayList<Mat> channels = hsvThreshold(frame, frame);
+        postImage(channels.get(0), "Hue threshold");
+        postImage(channels.get(1), "Saturation threshold");
+        postImage(channels.get(2), "Value threshold");
+        postImage(frame, "Combined threshold");
+
+        removeNoise(frame, frame);
+        postImage(frame, "Dilate and erode");
+
+        ArrayList<MatOfPoint> contours = getContours(frame);
+        Imgproc.drawContours(frameCopy, contours, -1, new Scalar(255, 0, 255), 2);
+        postImage(frameCopy, "Contours");
+        postTag("Contours", "contourCount", "Contours: " + contours.size());
     }
 }
