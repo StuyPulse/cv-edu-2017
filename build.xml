@@ -18,16 +18,26 @@
     <property name="build.dir" value="build" />
 
     <property name="opencv_home" value="lib/opencv-3.0.0" />
+    <!--
+        Locations of opencv jar and libs, within opencv_home, differ in Windows
+        installations vs. *nix ones. Both locations for each are used such that
+        it will work on each system.
+    -->
+    <!-- *ix installation locations: -->
     <property name="opencv_lib" value="${opencv_home}/build/lib" />
+    <property name="opencv_jar" value="${opencv_home}/build/bin/opencv-300.jar" />
+    <!-- Windows installation locations: -->
+    <property name="opencv_jar_win" value="${opencv_home}/build/java/opencv-300.jar" />
+    <property name="opencv_lib_win" value="${opencv_home}/build/java/x64" />
 
-    <property name="opencv" value="${opencv_home}/build/bin/opencv-300.jar" />
+    <!-- If user has problems with JavaFX, they can add a copy of the JAR to lib/ -->
     <property name="javafx" value="lib/jfxrt.jar" />
+
     <property name="stuyvision" value="lib/stuyvision.jar" />
 
-    <property name="camera" value="0" /> <!-- -Dcamera=X corresponds to /dev/videoX -->
-
     <path id="classpath">
-        <pathelement path="${opencv}" />
+        <pathelement path="${opencv_jar}" />
+        <pathelement path="${opencv_jar_win}" />
         <pathelement path="${javafx}" />
         <pathelement path="${stuyvision}" />
         <pathelement path="${build.dir}" />
@@ -43,7 +53,7 @@
             fork="true">
             <!-- fork="true" ensures ant looks at working directory. Without
                 this, System.loadLibrary cannot find opencv in java.library.path -->
-            <sysproperty key="java.library.path" path="${opencv_lib}" />
+            <sysproperty key="java.library.path" path="${opencv_lib}:${opencv_lib_win}" />
         </java>
     </target>
 
