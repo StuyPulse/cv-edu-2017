@@ -18,7 +18,7 @@ First, these things need to be installed:
   Then add `path-to-ant\bin` to your PATH, by searching for Environment
   Variables from Start menu, editing the PATH variable, and adding a New entry.
 
-- Clone the repo [](https://github.com/Team694/cv-edu-2017) if you haven't.
+- Clone the repo [https://github.com/Team694/cv-edu-2017]() if you haven't.
 
 After this, install OpenCV with [this
 installer](https://sourceforge.net/projects/opencvlibrary/files/opencv-win/3.0.0/)
