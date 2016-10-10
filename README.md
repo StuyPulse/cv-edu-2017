@@ -1,8 +1,8 @@
-# vision-education-workspace
+## CV Education for the 2017 season
 
-To use, link to an OpenCV installation in `lib/opencv-3.0.0', and
-likewise for `lib/stuyvision.jar` (directions for both in README
-of [https://github.com/Team694/stuyvision-lib]()).
+To use on Linux, link to an OpenCV installation in `lib/opencv-3.0.0`
+(directions for Linux in README of
+[https://github.com/Team694/stuyvision-lib]()), and run `ant` to compile and
+run.
 
-Depending on your Java installation you may need to link to the JavaFX runtime,
-`jfxrt.jar`, in `lib/jfxrt.jar`.
+To use on Linux, see `./windows-setup.md` for instructions.
