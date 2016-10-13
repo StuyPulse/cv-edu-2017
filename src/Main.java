@@ -32,5 +32,7 @@ public class Main {
             String path = imagesDir + directoryListing[i].getName();
             runner.addMapping(new ImageCaptureSource(path), new Vision());
         }
+        String colorwheel = imagesDir + "colorwheel.png";
+        runner.addMapping(new ImageCaptureSource(colorwheel), new Vision());
     }
 }
