@@ -21,6 +21,9 @@ public class Main {
 
     public static void processSamples(ModuleRunner runner) {
         String imagesDir = Main.class.getResource("").getPath() + "../sampleImages/";
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            imagesDir = imagesDir.substring(1); // Chop off leading / that appears before C:
+        }
         System.out.println("Getting images from " + imagesDir);
         File directory = new File(imagesDir);
         File[] directoryListing = directory.listFiles();
