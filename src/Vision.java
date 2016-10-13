@@ -10,19 +10,43 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 public class Vision extends VisionModule {
-    public IntegerSliderVariable minRed = new IntegerSliderVariable("Min Red", 0,  0, 255);
-    public IntegerSliderVariable maxRed = new IntegerSliderVariable("Max Red", 70, 0, 255);
+    public IntegerSliderVariable minHue = new IntegerSliderVariable("Min Hue", 64,  0, 255);
+    public IntegerSliderVariable maxHue = new IntegerSliderVariable("Max Hue", 92, 0, 255);
+
+    public IntegerSliderVariable minSaturation = new IntegerSliderVariable("Min Saturation", 0, 0, 255);
+    public IntegerSliderVariable maxSaturation = new IntegerSliderVariable("Max Saturation", 255, 0, 255);
+
+    public IntegerSliderVariable minValue = new IntegerSliderVariable("Min Value", 0, 0, 255);
+    public IntegerSliderVariable maxValue = new IntegerSliderVariable("Max Value", 255, 0, 255);
 
     public void run(Mat frame) {
         postImage(frame, "Camera Feed");
 
+        Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2HSV);
+
         ArrayList<Mat> channels = new ArrayList<Mat>();
         Core.split(frame, channels);
 
-        Mat redChannel = channels.get(2);
+        // channels.get(0) is the hue channel
+        // channels.get(1) is the saturation channel
+        // channels.get(2) is the value channel
 
-        Core.inRange(redChannel, new Scalar(minRed.value()), new Scalar(maxRed.value()), frame);
+        Mat hueChannel = channels.get(0);
 
-        postImage(frame, "Filtered Frame");
+        Core.inRange(hueChannel, new Scalar(minHue.value()), new Scalar(maxHue.value()), hueChannel);
+
+        postImage(hueChannel, "Hue-Filtered Frame");
+
+        Mat saturationChannel = channels.get(1);
+
+        Core.inRange(saturationChannel, new Scalar(minSaturation.value()), new Scalar(maxSaturation.value()), saturationChannel);
+
+        postImage(saturationChannel, "Saturation-Filtered Frame");
+
+        Mat valueChannel = channels.get(2);
+
+        Core.inRange(valueChannel, new Scalar(minValue.value()), new Scalar(maxValue.value()), valueChannel);
+
+        postImage(valueChannel, "Value-Filtered Frame");
     }
 }
