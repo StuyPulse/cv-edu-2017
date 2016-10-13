@@ -27,6 +27,9 @@ installer](https://sourceforge.net/projects/opencvlibrary/files/opencv-win/3.0.0
 on SourceForge. When it asks where to extract the files, enter
 `C:\...\cv-edu-2017\lib` (filling in the `...` with the path to cv-edu-2017).
 
+You'll need to rename the installation folder. By default it installs as
+"opencv". Rename that to "opencv-3.0.0".
+
 Finally, run `ant compile` (in Git Bash) in the `cv-edu-2017` directory, and
 then `ant run`. It should compile and run successfully, with a window showing
 up like the one we saw at the meeting.
