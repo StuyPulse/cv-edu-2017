@@ -7,4 +7,4 @@ are more detailed instructions on this in the README of
 [https://github.com/Team694/stuyvision-lib]()). Once CV is setup, run `ant` to
 compile and run the project. (Apache Ant must be installed.)
 
-To use on Windows, see `./windows-setup.md` for instructions.
+To use on Windows, see `windows-setup.md` for instructions.
