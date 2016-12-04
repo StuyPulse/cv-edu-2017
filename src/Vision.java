@@ -48,5 +48,13 @@ public class Vision extends VisionModule {
         Core.inRange(valueChannel, new Scalar(minValue.value()), new Scalar(maxValue.value()), valueChannel);
 
         postImage(valueChannel, "Value-Filtered Frame");
+
+        Mat together = new Mat();
+
+        Core.bitwise_and(hueChannel, saturationChannel, together);
+
+        Core.bitwise_and(together, valueChannel, together);
+
+        postImage(together, "Final filtering");
     }
 }
