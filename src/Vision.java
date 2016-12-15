@@ -31,30 +31,19 @@ public class Vision extends VisionModule {
         // channels.get(1) is the saturation channel
         // channels.get(2) is the value channel
 
-        Mat hueChannel = channels.get(0);
+        Core.inRange(channels.get(0), new Scalar(minHue.value()), new Scalar(maxHue.value()), channels.get(0));
+        postImage(channels.get(0), "Hue-Filtered Frame");
 
-        Core.inRange(hueChannel, new Scalar(minHue.value()), new Scalar(maxHue.value()), hueChannel);
+        Core.inRange(channels.get(1), new Scalar(minSaturation.value()), new Scalar(maxSaturation.value()), channels.get(1));
+        postImage(channels.get(1), "Saturation-Filtered Frame");
 
-        postImage(hueChannel, "Hue-Filtered Frame");
+        Core.inRange(channels.get(2), new Scalar(minValue.value()), new Scalar(maxValue.value()), channels.get(2));
+        postImage(channels.get(2), "Value-Filtered Frame");
 
-        Mat saturationChannel = channels.get(1);
+        // AND the three channels into channels.get(0)
+        Core.bitwise_and(channels.get(0), channels.get(1), channels.get(0));
+        Core.bitwise_and(channels.get(0), channels.get(2), channels.get(0));
 
-        Core.inRange(saturationChannel, new Scalar(minSaturation.value()), new Scalar(maxSaturation.value()), saturationChannel);
-
-        postImage(saturationChannel, "Saturation-Filtered Frame");
-
-        Mat valueChannel = channels.get(2);
-
-        Core.inRange(valueChannel, new Scalar(minValue.value()), new Scalar(maxValue.value()), valueChannel);
-
-        postImage(valueChannel, "Value-Filtered Frame");
-
-        Mat together = new Mat();
-
-        Core.bitwise_and(hueChannel, saturationChannel, together);
-
-        Core.bitwise_and(together, valueChannel, together);
-
-        postImage(together, "Final filtering");
+        postImage(channels.get(0), "Final filtering");
     }
 }
