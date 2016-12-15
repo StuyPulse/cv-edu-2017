@@ -8,9 +8,12 @@ import stuyvision.capture.VideoCaptureSource;
 import stuyvision.capture.ImageCaptureSource;
 import stuyvision.gui.VisionGui;
 
+// :%s/\<VisionLater\>/Vision/gc
+// :%s/\<Vision\>/VisionLater/gc
+
 public class Main {
     public static void main(String[] args) {
-        ModuleRunner runner = new ModuleRunner();
+        ModuleRunner runner = new ModuleRunner(5);
         processSamples(runner);
         VisionGui.begin(args, runner);
     }
@@ -27,11 +30,8 @@ public class Main {
         System.out.println("Getting images from " + imagesDir);
         File directory = new File(imagesDir);
         File[] directoryListing = directory.listFiles();
-        for (int i = 0; i < directoryListing.length && i < 10; i++) {
-            if (i == 1 || i == 2) {
-                // There is no 1.jpg or 2.jpg in the sample images
-                continue;
-            }
+        for (int i = 16; i < directoryListing.length && i < 20; i++) {
+            // NOTE: there is no 1.jpg or 2.jpg in the sample images. There is a 0.jpg
             String path = imagesDir + directoryListing[i].getName();
             runner.addMapping(new ImageCaptureSource(path), new Vision());
         }

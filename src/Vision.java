@@ -7,16 +7,17 @@ import stuyvision.gui.IntegerSliderVariable;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 public class Vision extends VisionModule {
     public IntegerSliderVariable minHue = new IntegerSliderVariable("Min Hue", 64,  0, 255);
-    public IntegerSliderVariable maxHue = new IntegerSliderVariable("Max Hue", 92, 0, 255);
+    public IntegerSliderVariable maxHue = new IntegerSliderVariable("Max Hue", 100, 0, 255);
 
     public IntegerSliderVariable minSaturation = new IntegerSliderVariable("Min Saturation", 0, 0, 255);
     public IntegerSliderVariable maxSaturation = new IntegerSliderVariable("Max Saturation", 255, 0, 255);
 
-    public IntegerSliderVariable minValue = new IntegerSliderVariable("Min Value", 0, 0, 255);
+    public IntegerSliderVariable minValue = new IntegerSliderVariable("Min Value", 83, 0, 255);
     public IntegerSliderVariable maxValue = new IntegerSliderVariable("Max Value", 255, 0, 255);
 
     public void run(Mat frame) {
@@ -31,8 +32,24 @@ public class Vision extends VisionModule {
         // channels.get(1) is the saturation channel
         // channels.get(2) is the value channel
 
+        postImage(channels.get(0), "Hue channel");
+
+        Imgproc.medianBlur(channels.get(0), channels.get(0), 5);
+        postImage(channels.get(0), "Blurred hue channel");
+
         Core.inRange(channels.get(0), new Scalar(minHue.value()), new Scalar(maxHue.value()), channels.get(0));
         postImage(channels.get(0), "Hue-Filtered Frame");
+
+        // Make a kernel
+        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
+
+        // Dilate based on a kernel
+        Imgproc.dilate(channels.get(0), channels.get(0), kernel);
+
+        postImage(channels.get(0), "Dilated hue");
+
+        // Erode based on a kernel
+        //Imgproc.erode(channels.get(0), channels.get(0), kernel);
 
         Core.inRange(channels.get(1), new Scalar(minSaturation.value()), new Scalar(maxSaturation.value()), channels.get(1));
         postImage(channels.get(1), "Saturation-Filtered Frame");
