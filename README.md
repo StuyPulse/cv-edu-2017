@@ -11,11 +11,9 @@ instructions on this in the README of
 setup, run `ant` to compile and run the project. (Apache Ant
 must be installed.)
 
-To use on Windows, see `windows-setup.md` for instructions.
+To set up on Windows, see `windows-setup.md` for instructions.
 
-# Lesson summaries
-
-# Dec 15
+# Dec 15 Lesson
 
 In this lesson we discussed methods for smoothing out
 images.
@@ -27,7 +25,7 @@ suboptimal in several ways.
 
 You might already notice that the reflexite's coloring is
 weird, and that the whole image is slightly blue. We can see
-this better by displaying the hue channel:
+this better by displaying the hue channel in our code:
 
 ````java
 public void run(Mat frame) {
