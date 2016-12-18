@@ -88,7 +88,7 @@ Common types of blurs:
 
 - **Gaussian blur**: set the center pixel to a weighted mean
   of the pixels in the window, giving more weight to closer
-  pixels. Gaussian blurring is very often used for removing
+  pixels. Gaussian blurring is very often used to remove
   noise/static from an image.
 
 *(Aside: There are more, including the __bilateral filter__,
