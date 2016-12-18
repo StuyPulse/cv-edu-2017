@@ -41,15 +41,14 @@ public class Vision extends VisionModule {
         postImage(channels.get(0), "Hue-Filtered Frame");
 
         // Make a kernel
-        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
-
         // Dilate based on a kernel
-        Imgproc.dilate(channels.get(0), channels.get(0), kernel);
-
+        Mat dilateKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
+        Imgproc.dilate(channels.get(0), channels.get(0), dilateKernel);
         postImage(channels.get(0), "Dilated hue");
-
         // Erode based on a kernel
-        //Imgproc.erode(channels.get(0), channels.get(0), kernel);
+        Mat erodeKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(7, 7));
+        Imgproc.erode(channels.get(0), channels.get(0), erodeKernel);
+        postImage(channels.get(0), "Eroded hue");
 
         Core.inRange(channels.get(1), new Scalar(minSaturation.value()), new Scalar(maxSaturation.value()), channels.get(1));
         postImage(channels.get(1), "Saturation-Filtered Frame");
@@ -62,5 +61,6 @@ public class Vision extends VisionModule {
         Core.bitwise_and(channels.get(0), channels.get(2), channels.get(0));
 
         postImage(channels.get(0), "Final filtering");
+
     }
 }

@@ -161,3 +161,87 @@ more useful.
 
 
 ## Erode and dilate
+
+There's still a bit of noise in our hue-filtered image.
+
+To get rid of that noise (both the black spots where there
+should be white ("negative noise"), and the white spots
+where there should be black ("positive noise")), we can
+use the **erode** and **dilate** operations.
+
+When we **erode** a binary (black-and-white) image, we
+**shrink** white areas, such that small white spots are
+removed.
+
+When we **dilate** a binary image, we **bloat** white areas,
+such that small black spots are removed.
+
+We can do both in succession to remove each kind of noise.
+
+Before we erode or dilate, we must create a **kernel** which
+will specify exactly how we want to erode or dilate:
+
+````java
+Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3);
+````
+
+Notice `new Size(3, 3)`. Erode and dilate are mathematically
+similar to blur operations, and just as before, we define
+the dimensions of the rectangular window we'll sweep over
+the image. **Basically: the bigger those numbers are, the
+more you will erode/dilate.  The numbers must be odd.**
+
+`Imgproc.MORPH_RECT` is a constant representing the shape
+based on which we want to erode/dilate. We are
+eroding/dilating in rectangular shape. If you're curious,
+try eroding/dilating with `Imgproc.MORPH_ELLIPSE`,
+`Imgproc.MORPH_CROSS`, or
+[others](http://docs.opencv.org/java/3.1.0/constant-values.html#org.opencv.imgproc.Imgproc.MORPH_BLACKHAT).
+
+Then, we can erode or dilate based on this kernel like so:
+````java
+// Erode `mat` in-place based on `kernel`:
+Imgproc.erode(mat, mat, kernel);
+// Dilate `mat` in-place based on `kernel`:
+Imgproc.dilate(mat, mat, kernel);
+````
+
+Let's apply this to our image above. We have some very small
+negative noise, and some positive noise around the image.
+
+The noise in this particular image isn't such a big deal,
+but let's try to remove it anyway.
+
+We'll dilate first, so that we don't poke too big holes in
+the goal when we erode. Then we'll erode by a bigger amount
+than we dilated by (so that we don't just shrink large areas
+to their previous size, but shrink areas even more to remove
+positive noise).
+
+````java
+public void run(Mat frame) {
+    ... rest of the code ...
+
+    // Dilate
+    Mat dilateKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
+    Imgproc.dilate(channels.get(0), channels.get(0), dilateKernel);
+    postImage(channels.get(0), "Dilated hue");
+
+    // Erode by bigger kernel
+    Mat erodeKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(7, 7));
+    Imgproc.erode(channels.get(0), channels.get(0), erodeKernel);
+    postImage(channels.get(0), "Eroded hue");
+}
+````
+
+We get this:
+
+![Eroded and dilated](res/dec-15-erode-dilate.png)
+
+After the dilate and erode (the image labelled "Eroded
+hue"), the image is a bit cleaner.
+
+In practice, depending on the situation, eroding and
+dilating may be overkill. Remember, performance is an issue,
+so only what's necessary for reliable detection should be
+done.
