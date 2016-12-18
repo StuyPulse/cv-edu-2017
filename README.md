@@ -239,6 +239,15 @@ We get this:
 After the dilate and erode (the image labelled "Eroded
 hue"), the image is a bit cleaner.
 
+**Remember** that only part of the process is shown here.
+The value channel, at least, should also be filtered and
+bitwise_anded with hue (it very *valuable* in these
+sample images). We are only showing hue here because hue is the
+only channel (for these particular images) which is so
+messy and in need of extra treatment. In practice, it might
+be wise to, for example, combine the H, S and
+V channels with bitwise_and, and *then* dilate and erode.
+
 In practice, depending on the situation, eroding and
 dilating may be overkill. Remember, performance is an issue,
 so only what's necessary for reliable detection should be
