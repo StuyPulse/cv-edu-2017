@@ -40,12 +40,12 @@ public class Vision extends VisionModule {
         Core.inRange(channels.get(0), new Scalar(minHue.value()), new Scalar(maxHue.value()), channels.get(0));
         postImage(channels.get(0), "Hue-Filtered Frame");
 
-        // Make a kernel
-        // Dilate based on a kernel
+        // Dilate
         Mat dilateKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
         Imgproc.dilate(channels.get(0), channels.get(0), dilateKernel);
         postImage(channels.get(0), "Dilated hue");
-        // Erode based on a kernel
+
+        // Erode by bigger kernel
         Mat erodeKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(7, 7));
         Imgproc.erode(channels.get(0), channels.get(0), erodeKernel);
         postImage(channels.get(0), "Eroded hue");
