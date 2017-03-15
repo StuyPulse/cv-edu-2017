@@ -9,8 +9,8 @@ SRC = $(PROJECT_ROOT)/src
 BIN = $(PROJECT_ROOT)/build
 
 OPENCV = $(PROJECT_ROOT)/lib/opencv-3.0.0
-OPENCV_JAR = $(OPENCV)/build/bin/opencv-300.jar
-OPENCV_LIBS = $(OPENCV)/build/lib/
+OPENCV_JAR = $(OPENCV)/build/bin/opencv-300.jar:$(PROJECT_ROOT)/java/opencv-300.jar
+OPENCV_LIBS = $(OPENCV)/build/lib/:$(PROJECT_ROOT)/java/x64
 
 JAVAC = javac
 CLASSPATH = $(BIN):$(STUYVISION):$(JAVAFX):$(OPENCV_JAR)
