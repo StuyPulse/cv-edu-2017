@@ -15,9 +15,9 @@ To set up on Windows, see `windows-setup.md` for instructions.
 
 - Official OpenCV 3.1.0 [JavaDocs](http://docs.opencv.org/java/3.1.0/).
 
-- Official OpenCV 2.4 [documentation](http://docs.opencv.org/2.4/index.html).
-  Although it's not the latest version, these docs are filled with interesting
-  and approachable examples (although none in Java).
+- Official OpenCV 3.1.0 [documentation](http://docs.opencv.org/3.1.0/). This has
+  much more detail than the JavaDocs, but is quite technical. There are no code
+  examples in Java (all in C/C++).
 
 More resources
 [here](https://github.com/Team694/stuyvision-lib#other-cv-resources), in
