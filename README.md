@@ -8,9 +8,7 @@ On Linux, you can install OpenCV with the
 `install-opencv-unix.sh` script.  There are more detailed
 instructions on this in [the README of
 github.com/Team694/stuyvision-lib](https://github.com/Team694/stuyvision-lib#installing-opencv-on-your-machine).
-Once CV is setup, run `ant` to compile and run the project.
-(Apache Ant must be installed.)
-
+Once CV is setup, run `make` to compile and then `make run` to run the project.
 To set up on Windows, see `windows-setup.md` for instructions.
 
 # Reference

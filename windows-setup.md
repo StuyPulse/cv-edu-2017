@@ -11,13 +11,8 @@ First, these things need to be installed:
 - Git should be installed already for most of you. If not, it can be installed
   [here](http://git-scm-org).
 
-- Apache Ant. You can run `ant -version` in Git Bash to see if it's already
-  installed (version 1.9.x should be fine). If not, use [this
-  link](http://mirrors.koehn.com/apache//ant/binaries/apache-ant-1.9.7-bin.zip)
-  to download it, and then extract it to wherever you like (e.g., just `C:\`).
-  Then add `path-to-ant\bin` to your PATH, by searching for Environment
-  Variables from Start menu, editing the PATH variable, and adding a New entry.
-  This allows you to run `ant` from Git Bash.
+- Either Apache Ant, make, or Eclipse (although Eclipse will require some
+  setup).
 
 - Clone the repo [https://github.com/Team694/cv-edu-2017](), or if you've
   already cloned it, run `git pull`.
