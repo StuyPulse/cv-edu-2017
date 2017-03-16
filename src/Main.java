@@ -13,18 +13,18 @@ import stuyvision.gui.VisionGui;
 
 public class Main {
     public static void main(String[] args) {
-        ModuleRunner runner = new ModuleRunner(5);
+        ModuleRunner runner = new ModuleRunner(10);
         processCamera(runner);
         VisionGui.begin(args, runner);
     }
 
     public static void processCamera(ModuleRunner runner) {
         runner.addMapping(new DeviceCaptureSource(0), new Vision());
-        runner.addMapping(new ImageCaptureSource("../sampleImages/colorwheel.png"), new Vision());
+        runner.addMapping(new ImageCaptureSource("sampleImages/colorwheel.png"), new Vision());
     }
 
     public static void processSamples(ModuleRunner runner) {
-        String imagesDir = Main.class.getResource("").getPath() + "../sampleImages/";
+        String imagesDir = Main.class.getResource("").getPath() + "sampleImages/";
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
             imagesDir = imagesDir.substring(1); // Chop off leading / that appears before C:
         }
