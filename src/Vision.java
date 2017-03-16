@@ -19,7 +19,7 @@ public class Vision extends VisionModule {
         ArrayList<Mat> channels = new ArrayList<Mat>();
        Core.split(frame, channels);
        //postImage(channels.get(0), "Hue channel");
-       Core.inRange(channels.get(0), new Scalar(110), new Scalar(112), channels.get(0));
+       Core.inRange(channels.get(0), new Scalar(110), new Scalar(111), channels.get(0));
        //postImage(channels.get(0), "Ranged Hue channel");
        
        Imgproc.medianBlur(channels.get(0), channels.get(0), 5);
