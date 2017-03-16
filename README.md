@@ -37,7 +37,7 @@ postImage(channels.get(0), "Hue Channel");
 
 ##### void Imgproc.cvtColor(Mat input, Mat output, int code);
 
-Convert the color representation of `input`, and save it in `destionation`.
+Convert the color representation of `input`, and save it in `output`.
 You can pass the same Mat as `input` and `output` to overwite the
 original Mat.
 
