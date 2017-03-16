@@ -11,9 +11,19 @@ github.com/Team694/stuyvision-lib](https://github.com/Team694/stuyvision-lib#ins
 Once CV is setup, run `make` to compile and then `make run` to run the project.
 To set up on Windows, see `windows-setup.md` for instructions.
 
-# Reference
+## Reference
 
-### StuyVision methods:
+- Official OpenCV 3.1.0 [JavaDocs](http://docs.opencv.org/java/3.1.0/).
+
+- Official OpenCV 2.4 [documentation](http://docs.opencv.org/2.4/index.html).
+  Although it's not the latest version, these docs are filled with interesting
+  and approachable examples (although none in Java).
+
+More resources
+[here](https://github.com/Team694/stuyvision-lib#other-cv-resources), in
+stuyvision-lib.
+
+#### StuyVision methods:
 
 `postImage` puts an image to the screen under a specified label.
 
@@ -24,7 +34,7 @@ void postImage(Mat frame, String label);
 postImage(channels.get(0), "Hue Channel");
 ````
 
-### OpenCV functions:
+#### OpenCV functions:
 
 ##### Imgproc.cvtColor(Mat source, Mat destination, int code);
 
@@ -43,7 +53,7 @@ Core.split(myFrame, channels);
 // The first channel is channels.get(0), the second is channels.get(1), etc.
 ````
 
-### ArrayList:
+#### ArrayList:
 
 An `ArrayList` stores a list of things, and has some methods for gettings the
 things and appending things.
@@ -63,7 +73,7 @@ Methods:
 - many more, all described in the JavaDocs
 
 
-# Dec 15 Lesson
+## Dec 15 Lesson
 
 In this lesson we discussed methods for smoothing out
 images.
@@ -112,7 +122,7 @@ than this from the LifeCam), and leads us to a common tool
 in computer vision for improving image quality: image
 smoothing.
 
-## Smoothing an image
+### Smoothing an image
 
 There are many algorithms for blurring an image. The ones we
 will talk about have a consistent underlying methodology:
@@ -208,7 +218,7 @@ the image. As a result, our hue-filtered channel is much
 more useful.
 
 
-## Erode and dilate
+### Erode and dilate
 
 There's still a bit of noise in our hue-filtered image.
 
