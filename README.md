@@ -30,20 +30,23 @@ stuyvision-lib.
 `postImage` puts an image to the screen with a specified label. E.g.:
 
 ````java
-postImage(channels.get(0), "Hue Channel");
+postImage(frame, "Camera Frame");
 ````
 
 #### OpenCV functions:
 
+Unless otherwise stated, you can pass the same Mat as an `input` parameter and
+an `output` parameter, to overwrite the original Mat.
+
 ##### void Imgproc.cvtColor(Mat input, Mat output, int code);
 
 Convert the color representation of `input`, and save it in `output`.
-You can pass the same Mat as `input` and `output` to overwite the
-original Mat.
 
 `code` is a constant representing what conversion to make, like
-`Imgproc.COLOR_BGR2HSV` which says to convert from BGR to HSV. There are many
-more conversions, enumerated in the JavaDocs.
+`Imgproc.COLOR_BGR2HSV` which says to convert from BGR to HSV. You can also
+convert to and much more, by using different constants. The conversion
+constants are enumerated in the [Imgproc
+JavaDocs](http://docs.opencv.org/java/3.1.0/index.html?org/opencv/imgproc/Imgproc.html).
 
 ##### void Core.split(Mat frame, ArrayList<Mat> channels);
 ````java
@@ -54,20 +57,20 @@ Core.split(myFrame, channels);
 
 ##### void Core.inRange(Mat input, Scalar lowerBound, Scalar upperBound, Mat output);
 
-Filters the `input` into `output`. A given pixel in `output` is white (numerically, 255)
-if the input pixel value is greater than `lowerBound` and less than `upperBound`.
+Filters the `input` into `output`. A given pixel in `output` is white
+(numerically, 255) if the corresponding input pixel is between `lowerBound` and
+`upperBound`; it is black otherwise (numerically, 0).
 
 ````java
 Core.inRange(hueChannel, new Scalar(80), new Scalar(100), filteredHueChannel);
 ````
 
-You can pass the same Mat as `input` and `output` to overwrite the original Mat.
-
 ##### Core.bitwise_*
 
 There are several bitwise-operation methods. These do logical operations (like
 AND, OR, NOT) on the pixel values of two Mats. A white pixel is all 1-bits,
-a black pixel is all 0-bits.
+a black pixel is all 0-bits. So, ANDing a white and a black pixel, for example,
+results in a black pixel.
 
 - `void Core.bitwise_and(Mat input1, Mat input2, Mat output);`
 - `void Core.bitwise_or(Mat input1, Mat input2, Mat output);`
