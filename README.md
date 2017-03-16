@@ -13,6 +13,58 @@ Once CV is setup, run `ant` to compile and run the project.
 
 To set up on Windows, see `windows-setup.md` for instructions.
 
+# Reference
+
+### StuyVision methods:
+
+`postImage` puts an image to the screen under a specified label.
+
+````java
+// Signature:
+void postImage(Mat frame, String label);
+// Example:
+postImage(channels.get(0), "Hue Channel");
+````
+
+### OpenCV functions:
+
+##### Imgproc.cvtColor(Mat source, Mat destination, int code);
+
+Convert the color representation of `source`, and save it in `destionation`.
+You can pass the same Mat as `source` and `destination` to overwite the
+original Mat.
+
+`code` is a constant representing what conversion to make, like
+`Imgproc.COLOR_BGR2HSV` which says to convert from BGR to HSV. There are many
+more conversions, enumerated in the JavaDocs.
+
+##### Core.split(Mat frame, ArrayList<Mat> channels);
+````java
+ArrayList<Mat> channels = new ArrayList<Mat>();
+Core.split(myFrame, channels);
+// The first channel is channels.get(0), the second is channels.get(1), etc.
+````
+
+### ArrayList:
+
+An `ArrayList` stores a list of things, and has some methods for gettings the
+things and appending things.
+
+The type of an ArrayList is *parameterized* by the type of the elements in the list. For example:
+
+````java
+// an ArrayList of Strings:
+ArrayList<String> namesOfPeople = new ArrayList<String>();
+// an ArrayList of Mats:
+ArrayList<Mat> channels = new ArrayList<Mat>();
+````
+
+Methods:
+- `get`: `myArrayList.get(i)` returns element `i` of `myArrayList`.
+- `add`: `myArrayList.add(thing)` adds `thing` to the end of `myArrayList`
+- many more, all described in the JavaDocs
+
+
 # Dec 15 Lesson
 
 In this lesson we discussed methods for smoothing out
