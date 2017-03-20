@@ -55,6 +55,17 @@ Core.split(myFrame, channels);
 // The first channel is channels.get(0), the second is channels.get(1), etc.
 ````
 
+##### void Core.merge(ArrayList<Mat> channels, Mat frame);
+
+Merge individual channels into a single multi-channel frame.
+
+````java
+ArrayList<Mat> channels = new ArrayList<Mat>();
+// ... do stuff with channels...
+Mat merged = new Mat();
+Core.merge(channels, merged);
+````
+
 ##### void Core.inRange(Mat input, Scalar lowerBound, Scalar upperBound, Mat output);
 
 Filters the `input` into `output`. A given pixel in `output` is white
@@ -65,7 +76,7 @@ Filters the `input` into `output`. A given pixel in `output` is white
 Core.inRange(hueChannel, new Scalar(80), new Scalar(100), filteredHueChannel);
 ````
 
-##### Core.bitwise_*
+##### bitwise operations
 
 There are several bitwise-operation methods. These do logical operations (like
 AND, OR, NOT) on the pixel values of two Mats. A white pixel is all 1-bits,
@@ -80,6 +91,14 @@ results in a black pixel.
 For example, you can filter the hue channel and the value channel, and then
 AND them together with Core.bitwise_and to get a Mat filtered by both hue
 and value.
+
+##### erode and dilate
+
+````java
+Mat Imgproc.getStructuringElement(int shape, Size kernelSize);
+void Imgproc.erode(Mat input, Mat output, Mat kernel);
+void Imgproc.dilate(Mate input, Mat output, Mat kernel);
+````
 
 #### ArrayList:
 
