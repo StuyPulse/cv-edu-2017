@@ -8,9 +8,6 @@ import stuyvision.capture.VideoCaptureSource;
 import stuyvision.capture.ImageCaptureSource;
 import stuyvision.gui.VisionGui;
 
-// :%s/\<VisionLater\>/Vision/gc
-// :%s/\<Vision\>/VisionLater/gc
-
 public class Main {
     public static void main(String[] args) {
         ModuleRunner runner = new ModuleRunner(5);
