@@ -92,6 +92,8 @@ For example, you can filter the hue channel and the value channel, and then
 AND them together with Core.bitwise_and to get a Mat filtered by both hue
 and value.
 
+**These only work if each input Mat has the same number of channels**
+
 ##### erode and dilate
 
 ```java
