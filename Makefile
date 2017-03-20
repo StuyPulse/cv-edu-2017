@@ -8,6 +8,8 @@ JAVAFX = $(LIB)/jfxrt.jar
 SRC = $(PROJECT_ROOT)/src
 BIN = $(PROJECT_ROOT)/build
 
+OPENCV = $(LIB)/opencv-3.0.0
+
 OPENCV_JAR = $(OPENCV)/build/bin/opencv-300.jar:$(PROJECT_ROOT)/java/opencv-300.jar:/usr/local/Cellar/opencv3/3.2.0/share/OpenCV/java/opencv-320.jar
 OPENCV_LIBS = $(OPENCV)/build/lib/:$(PROJECT_ROOT)/java/x64:/usr/local/Cellar/opencv3/3.2.0/share/OpenCV/java/
 
