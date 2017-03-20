@@ -29,9 +29,9 @@ stuyvision-lib.
 
 `postImage` puts an image to the screen with a specified label. E.g.:
 
-````java
+```java
 postImage(frame, "Camera Frame");
-````
+```
 
 #### OpenCV functions:
 
@@ -49,22 +49,22 @@ constants are enumerated in the [Imgproc
 JavaDocs](http://docs.opencv.org/java/3.1.0/index.html?org/opencv/imgproc/Imgproc.html).
 
 ##### void Core.split(Mat frame, ArrayList<Mat> channels);
-````java
+```java
 ArrayList<Mat> channels = new ArrayList<Mat>();
 Core.split(myFrame, channels);
 // The first channel is channels.get(0), the second is channels.get(1), etc.
-````
+```
 
 ##### void Core.merge(ArrayList<Mat> channels, Mat frame);
 
 Merge individual channels into a single multi-channel frame.
 
-````java
+```java
 ArrayList<Mat> channels = new ArrayList<Mat>();
 // ... do stuff with channels...
 Mat merged = new Mat();
 Core.merge(channels, merged);
-````
+```
 
 ##### void Core.inRange(Mat input, Scalar lowerBound, Scalar upperBound, Mat output);
 
@@ -72,9 +72,9 @@ Filters the `input` into `output`. A given pixel in `output` is white
 (numerically, 255) if the corresponding input pixel is between `lowerBound` and
 `upperBound`; it is black otherwise (numerically, 0).
 
-````java
+```java
 Core.inRange(hueChannel, new Scalar(80), new Scalar(100), filteredHueChannel);
-````
+```
 
 ##### bitwise operations
 
@@ -94,11 +94,11 @@ and value.
 
 ##### erode and dilate
 
-````java
+```java
 Mat Imgproc.getStructuringElement(int shape, Size kernelSize);
 void Imgproc.erode(Mat input, Mat output, Mat kernel);
 void Imgproc.dilate(Mate input, Mat output, Mat kernel);
-````
+```
 
 #### ArrayList:
 
@@ -107,12 +107,12 @@ things and appending things.
 
 The type of an ArrayList is *parameterized* by the type of the elements in the list. For example:
 
-````java
+```java
 // an ArrayList of Strings:
 ArrayList<String> namesOfPeople = new ArrayList<String>();
 // an ArrayList of Mats:
 ArrayList<Mat> channels = new ArrayList<Mat>();
-````
+```
 
 Methods:
 - `get`: `myArrayList.get(i)` returns element `i` of `myArrayList`.
@@ -134,7 +134,7 @@ You might already notice that the reflexite's coloring is
 weird, and that the whole image is slightly blue. We can see
 this better by displaying the hue channel in our code:
 
-````java
+```java
 public void run(Mat frame) {
     postImage(frame, "Camera Feed");
 
@@ -148,7 +148,7 @@ public void run(Mat frame) {
     Core.inRange(channels.get(0), new Scalar(minHue.value()), new Scalar(maxHue.value()), channels.get(0));
     postImage(channels.get(0), "Hue-Filtered Frame");
 }
-````
+```
 
 We then see this:
 
