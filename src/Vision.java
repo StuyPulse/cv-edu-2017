@@ -9,9 +9,18 @@ import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-
+import stuyvision.gui.IntegerSliderVariable;
+import stuyvision.gui.IntegerSliderVariable;
 public class Vision extends VisionModule {
-    public void run(Mat frame) {
+	public IntegerSliderVariable minHue = new IntegerSliderVariable("Min Hue", 110, 0, 255);
+	public IntegerSliderVariable maxHue = new IntegerSliderVariable("Max Hue", 116, 0, 255);
+	public IntegerSliderVariable minSat = new IntegerSliderVariable("Min Sat", 100, 0, 255);
+	public IntegerSliderVariable maxSat = new IntegerSliderVariable("Max Sat", 101, 0, 255);
+	public IntegerSliderVariable minVal = new IntegerSliderVariable("Min Val", 101, 0, 255);
+	public IntegerSliderVariable maxVal = new IntegerSliderVariable("Max Val", 101, 0, 255);
+	
+	public void run(Mat frame) {
+    	
         postImage(frame, "Camera Feed");
 
         Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2HSV);
@@ -22,10 +31,29 @@ public class Vision extends VisionModule {
 
         postImage(channels.get(0), "Hue channel");
 
-        Mat filtered = new Mat();
+        Mat filterHue = new Mat();
 
-        Core.inRange(channels.get(0), new Scalar(150), new Scalar(230), filtered);
-
-        postImage(filtered, "Filtered for teel");
+        Core.inRange(channels.get(0), new Scalar(minHue.value()), new Scalar(maxHue.value()), filterHue);
+        
+        postImage(filterHue, "Darwinism");
+        
+        Mat filterSat = new Mat();
+        
+        Core.inRange(channels.get(1), new Scalar(minSat.value()), new Scalar(maxSat.value()), filterSat);
+        
+        postImage(filterSat, "Bryan has no Friends");
+        
+        Mat filterVal = new Mat();
+        Core.inRange(channels.get(2), new Scalar(minVal.value()), new Scalar(maxVal.value()), filterVal);
+        postImage(filterVal, "Glados");
+        
+        Mat filterupdate = new Mat();
+        
+        Core.bitwise_and(filterVal, filterSat, filterupdate);
+        
+        Core.bitwise_and(filterupdate, filterHue, filterupdate);
+        
+        postImage(filterupdate, "HSV filter");
+        
     }
 }
