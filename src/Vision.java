@@ -17,13 +17,10 @@ public class Vision extends VisionModule {
     public IntegerSliderVariable minSat = new IntegerSliderVariable("Max Sat", 255, 0, 255);
     public IntegerSliderVariable minVal = new IntegerSliderVariable("Min Val", 0, 0, 255);
     public IntegerSliderVariable maxVal = new IntegerSliderVariable("Max Val", 255, 0, 255);
-
+    
     public void run(Mat frame) {
-        Imgproc.GaussianBlur(frame, frame, new Size(5 , 5), 0);
-
         
         postImage(frame, "Camera Feed");
-        
         
         Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2HSV);
         
@@ -39,8 +36,17 @@ public class Vision extends VisionModule {
         Core.inRange(channels.get(1), new Scalar(maxSat.value()), new Scalar(minSat.value()), channels.get(1));
         Core.inRange(channels.get(2), new Scalar(minVal.value()), new Scalar(maxVal.value()), channels.get(2));
         
+        Mat erodeKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
+        Mat dilateKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(7, 7));
+        
+        Imgproc.erode(channels.get(0), channels.get(0), erodeKernel);
+        Imgproc.dilate(channels.get(0), channels.get(0), dilateKernel);
         postImage(channels.get(0), "Hues");
+        
+        Imgproc.erode(channels.get(1), channels.get(1), erodeKernel);
+        Imgproc.dilate(channels.get(1), channels.get(1), dilateKernel);
         postImage(channels.get(1), "Saturation");
+
         postImage(channels.get(2), "Value");
         
         Core.bitwise_and(channels.get(1), channels.get(0), primaryFilteredChannel);
@@ -92,11 +98,20 @@ public class Vision extends VisionModule {
 
         Core.bitwise_not(grayFrame, grayFrame);
         
-        Core.bitwise_and(invertedFilter, grayFrame, frame);
+        Core.bitwise_not(hueFilteredFrame, hueFilteredFrame);
         
-        Core.bitwise_not(frame, frame);
+        Core.bitwise_and(grayFrame, hueFilteredFrame, grayFrame);
         
-        //Core.bitwise_xor(frame, valuesFrame, valuesFrame);
+        Core.bitwise_not(grayFrame, grayFrame);
+        
+        postImage(grayFrame, "Special Gray Frame");
+        
+        postImage(invertedFilter, "Inverted Filter");
+        
+        Core.bitwise_xor(invertedFilter, grayFrame, frame);
+        
+        //Core.bitwise_not(frame, frame);
+        
         postImage(frame, "Filtered hue on Gray");
         
     }
