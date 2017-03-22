@@ -6,14 +6,12 @@ import stuyvision.capture.CaptureSource.ResizeDimension;
 import stuyvision.capture.DeviceCaptureSource;
 import stuyvision.capture.VideoCaptureSource;
 import stuyvision.capture.ImageCaptureSource;
+import stuyvision.gui.IntegerSliderVariable;
 import stuyvision.gui.VisionGui;
-
-// :%s/\<VisionLater\>/Vision/gc
-// :%s/\<Vision\>/VisionLater/gc
 
 public class Main {
     public static void main(String[] args) {
-        ModuleRunner runner = new ModuleRunner(5);
+        ModuleRunner runner = new ModuleRunner(15);
         processCamera(runner);
         VisionGui.begin(args, runner);
     }
