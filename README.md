@@ -102,6 +102,27 @@ void Imgproc.erode(Mat input, Mat output, Mat kernel);
 void Imgproc.dilate(Mate input, Mat output, Mat kernel);
 ```
 
+There is more explanation of erode and dilate below (the Dec 15 section).
+
+##### void Imgproc.findContours(Mat image, ArrayList<MatOfPoint> contours, Mat hierarchy, int mode, int method);
+
+Finds contours in `image` using the method specified by `method`, and
+adds them to the list `contours`. Each contour is a `MatOfPoint`, which
+is a matrix of points.
+
+If you don't want to use the hierarchy, you can pass a `new Mat()`.
+
+E.g., find contours with rectilinear boundaries:
+
+```java
+MatOfPoint contours = new MatOfPoint();
+Imgproc.findContours(filteredImage, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+```
+
+##### MatOfPoint
+
+
+
 #### ArrayList:
 
 An `ArrayList` stores a list of things, and has some methods for gettings the
