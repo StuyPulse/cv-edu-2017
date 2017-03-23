@@ -96,7 +96,7 @@ public class Vision extends VisionModule {
         
         postImage(grayFrame, "Gray Frame");
 
-        Core.bitwise_not(grayFrame, grayFrame);
+        //Core.bitwise_not(grayFrame, grayFrame);m
         
         Core.bitwise_not(hueFilteredFrame, hueFilteredFrame);
         
@@ -108,9 +108,11 @@ public class Vision extends VisionModule {
         
         postImage(invertedFilter, "Inverted Filter");
         
-        Core.bitwise_xor(invertedFilter, grayFrame, frame);
+        //Core.add(grayFrame, invertedFilter, frame);
         
-        //Core.bitwise_not(frame, frame);
+        Core.bitwise_xor(filteredHueOnBlack, grayFrame, frame);
+        
+        Core.bitwise_not(frame, frame);
         
         postImage(frame, "Filtered hue on Gray");
         
