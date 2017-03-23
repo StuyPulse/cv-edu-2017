@@ -62,8 +62,8 @@ public class Vision extends VisionModule {
         postImage(channels.get(1), "Saturation");
 
         //Erodes and Dilates the Values channel to remove noise.
-        Imgproc.erode(channels.get(2), channels,get(2), erodeKernel);
-        Imgproc.dilate()channels.get(2), channels.get(2), dilateKernel;
+        Imgproc.erode(channels.get(2), channels.get(2), erodeKernel);
+        Imgproc.dilate(channels.get(2), channels.get(2), dilateKernel);
         postImage(channels.get(2), "Value");
         
         //Merges the scaled Hue and Saturation channel for a primary filter.
