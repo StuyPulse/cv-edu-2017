@@ -18,8 +18,15 @@ public class Vision extends VisionModule {
 	public IntegerSliderVariable maxSat = new IntegerSliderVariable("Max Sat", 101, 0, 255);
 	public IntegerSliderVariable minVal = new IntegerSliderVariable("Min Val", 101, 0, 255);
 	public IntegerSliderVariable maxVal = new IntegerSliderVariable("Max Val", 101, 0, 255);
+	public IntegerSliderVariable dilateKernelSize = new IntegerSliderVariable("dilateKernelSize", 9, 1, 30);
+	public IntegerSliderVariable erodeKernelSize = new IntegerSliderVariable("erodeKernelSize", 9, 1, 30);
+	
 	
 	public void run(Mat frame) {
+   	if (dilateKernelSize%2 == 0){
+   	}else{ ? dilateKernelSize ++ : dilateKernelSize;
+    	
+  	erodeKernelSize = (erodeKernelSize%2 == 0) ? erodeKernelSize++ : erodeKernelSize;
     	
         postImage(frame, "Camera Feed");
 
@@ -47,13 +54,17 @@ public class Vision extends VisionModule {
         Core.inRange(channels.get(2), new Scalar(minVal.value()), new Scalar(maxVal.value()), filterVal);
         postImage(filterVal, "Glados");
         
-        Mat filterupdate = new Mat();
+        Mat filterUpdate = new Mat();
         
-        Core.bitwise_and(filterVal, filterSat, filterupdate);
+        Core.bitwise_and(filterVal, filterSat, filterUpdate);
         
-        Core.bitwise_and(filterupdate, filterHue, filterupdate);
+        Core.bitwise_and(filterUpdate, filterHue, filterUpdate);
         
-        postImage(filterupdate, "HSV filter");
+        postImage(filterUpdate, "HSV filter");
+        
+        Mat kernelSize = new Mat();
+        
+        
         
     }
 }
