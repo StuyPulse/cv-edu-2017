@@ -102,7 +102,8 @@ void Imgproc.erode(Mat input, Mat output, Mat kernel);
 void Imgproc.dilate(Mate input, Mat output, Mat kernel);
 ```
 
-There is more explanation of erode and dilate below (the Dec 15 section).
+There is more explanation of erode and dilate below (the
+"December 15 Lesson" section).
 
 ##### void Imgproc.findContours(Mat image, ArrayList<MatOfPoint> contours, Mat hierarchy, int mode, int method);
 
@@ -143,7 +144,7 @@ Methods:
 - many more, all described in the JavaDocs
 
 
-## Dec 15 Lesson
+## December 15 Lesson
 
 In this lesson we discussed methods for smoothing out
 images.
@@ -183,14 +184,20 @@ Color wheel for context:
 
 ![Hue channel color wheel](res/dec-15-hue-channel-wheel.png)
 
-(1) The hue all over the image is blue, and (2) the hue
-at the goal is nasty. The reflexite may have been dirty
-or damaged, but it is *not* a solid color.
+(This shows what hue values, displayed as shades of gray,
+correspond to what colors of the color wheel.)
+
+Note two things:
+1. the hue all over the image is blue
+
+2. the hue at the goal is *not* a solid color (greener at
+   the edges and bluer in the middle). This is probably
+   because the camera's exposure is too high.
 
 These are serious problems (note that we get better images
-than this from the LifeCam), and leads us to a common tool
-in computer vision for improving image quality: image
-smoothing.
+than this with good camera settings), and leads us to
+a common tool in computer vision for improving image
+quality: image smoothing.
 
 ### Smoothing an image
 
