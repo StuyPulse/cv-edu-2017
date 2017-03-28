@@ -116,13 +116,40 @@ If you don't want to use the hierarchy, you can pass a `new Mat()`.
 E.g., find contours with rectilinear boundaries:
 
 ```java
-MatOfPoint contours = new MatOfPoint();
+ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 Imgproc.findContours(filteredImage, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 ```
 
-##### MatOfPoint
+Now each member of `contours` is a contour, represented as a `MatOfPoint`.
+
+##### MatOfPoint, MatOfPoint2f
+
+A `MatOfPoint` is a matrix of `Point`s. A `Point` has integer coordinates.
+
+A `MatOfPoint2f` is a matrix of `Point2f`s. A `Point2f` has floating point coordinates.
+
+In certain cases these are basically used as lists of points.
 
 
+Methods:
+- `myMatOfPoints.convertTo(otherMat, conversion)` -- convert the `MatOfPoint` to another type.
+  In particular, you'll probably use the following conversion to convert a `MatOfPoint`
+  to a `MatOfPoint2f`:
+
+  `myMatOfPoints.convertTo(myMatOfPoint2f, CvType.CV_32FC1);`
+
+##### void Imgproc.minEnclosingCircle(MatOfPoint2f points, Point center, float[] radius);
+
+This determines the center and radius of the smallest circle that encloses all
+of the points in `points`.
+
+The only *input parameter* is `points`.
+
+The method tells you the centerpoint by writing to `center` (an *output
+parameter*).
+
+The method tells you the radius by assigning to the first element in the array
+`radius` (an output parameter).
 
 #### ArrayList:
 
