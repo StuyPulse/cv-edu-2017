@@ -23,9 +23,9 @@ More resources
 [here](https://github.com/Team694/stuyvision-lib#other-cv-resources), in
 stuyvision-lib.
 
-#### StuyVision methods:
+### StuyVision methods:
 
-##### void postImage(Mat frame, String label);
+#### void postImage(Mat frame, String label);
 
 `postImage` puts an image to the screen with a specified label. E.g.:
 
@@ -33,12 +33,12 @@ stuyvision-lib.
 postImage(frame, "Camera Frame");
 ```
 
-#### OpenCV functions:
+### OpenCV functions:
 
 Unless otherwise stated, you can pass the same Mat as an `input` parameter and
 an `output` parameter, to overwrite the original Mat.
 
-##### void Imgproc.cvtColor(Mat input, Mat output, int code);
+#### void Imgproc.cvtColor(Mat input, Mat output, int code);
 
 Convert the color representation of `input`, and save it in `output`.
 
@@ -48,14 +48,14 @@ convert to and much more, by using different constants. The conversion
 constants are enumerated in the [Imgproc
 JavaDocs](http://docs.opencv.org/java/3.1.0/index.html?org/opencv/imgproc/Imgproc.html).
 
-##### void Core.split(Mat frame, ArrayList<Mat> channels);
+#### void Core.split(Mat frame, ArrayList<Mat> channels);
 ```java
 ArrayList<Mat> channels = new ArrayList<Mat>();
 Core.split(myFrame, channels);
 // The first channel is channels.get(0), the second is channels.get(1), etc.
 ```
 
-##### void Core.merge(ArrayList<Mat> channels, Mat frame);
+#### void Core.merge(ArrayList<Mat> channels, Mat frame);
 
 Merge individual channels into a single multi-channel frame.
 
@@ -66,7 +66,7 @@ Mat merged = new Mat();
 Core.merge(channels, merged);
 ```
 
-##### void Core.inRange(Mat input, Scalar lowerBound, Scalar upperBound, Mat output);
+#### void Core.inRange(Mat input, Scalar lowerBound, Scalar upperBound, Mat output);
 
 Filters the `input` into `output`. A given pixel in `output` is white
 (numerically, 255) if the corresponding input pixel is between `lowerBound` and
@@ -76,7 +76,7 @@ Filters the `input` into `output`. A given pixel in `output` is white
 Core.inRange(hueChannel, new Scalar(80), new Scalar(100), filteredHueChannel);
 ```
 
-##### bitwise operations
+#### bitwise operations
 
 There are several bitwise-operation methods. These do logical operations (like
 AND, OR, NOT) on the pixel values of two Mats. A white pixel is all 1-bits,
@@ -94,7 +94,7 @@ and value.
 
 **These only work if each input Mat has the same number of channels**
 
-##### erode and dilate
+#### erode and dilate
 
 ```java
 Mat Imgproc.getStructuringElement(int shape, Size kernelSize);
@@ -105,7 +105,7 @@ void Imgproc.dilate(Mate input, Mat output, Mat kernel);
 There is more explanation of erode and dilate below (the
 "December 15 Lesson" section).
 
-##### void Imgproc.findContours(Mat image, ArrayList<MatOfPoint> contours, Mat hierarchy, int mode, int method);
+#### void Imgproc.findContours(Mat image, ArrayList<MatOfPoint> contours, Mat hierarchy, int mode, int method);
 
 Finds contours in `image` using the method specified by `method`, and
 adds them to the list `contours`. Each contour is a `MatOfPoint`, which
@@ -122,7 +122,7 @@ Imgproc.findContours(filteredImage, contours, new Mat(), Imgproc.RETR_EXTERNAL, 
 
 Now each member of `contours` is a contour, represented as a `MatOfPoint`.
 
-##### MatOfPoint, MatOfPoint2f
+#### MatOfPoint, MatOfPoint2f
 
 A `MatOfPoint` is a matrix of `Point`s. A `Point` has integer coordinates.
 
@@ -138,7 +138,7 @@ Methods:
 
   `myMatOfPoints.convertTo(myMatOfPoint2f, CvType.CV_32FC1);`
 
-##### void Imgproc.minEnclosingCircle(MatOfPoint2f points, Point center, float[] radius);
+#### void Imgproc.minEnclosingCircle(MatOfPoint2f points, Point center, float[] radius);
 
 This determines the center and radius of the smallest circle that encloses all
 of the points in `points`.
@@ -151,7 +151,7 @@ parameter*).
 The method tells you the radius by assigning to the first element in the array
 `radius` (an output parameter).
 
-#### ArrayList:
+### ArrayList:
 
 An `ArrayList` stores a list of things, and has some methods for gettings the
 things and appending things.
