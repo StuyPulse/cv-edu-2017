@@ -88,9 +88,11 @@ results in a black pixel.
 - `void Core.bitwise_not(Mat input, Mat output);`
 - `void Core.bitwise_xor(Mat input1, Mat input2, Mat output);`
 
+  XOR is "exclusive or". This means OR, but not AND.
+
 For example, you can filter the hue channel and the value channel, and then
-AND them together with Core.bitwise_and to get a Mat filtered by both hue
-and value.
+`bitwise_and` them together with Core.bitwise_and to get a Mat filtered by both
+hue and value.
 
 **These only work if each input Mat has the same number of channels**
 
