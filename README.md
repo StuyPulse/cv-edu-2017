@@ -23,9 +23,9 @@ More resources
 [here](https://github.com/Team694/stuyvision-lib#other-cv-resources), in
 stuyvision-lib.
 
-#### StuyVision methods:
+### StuyVision methods:
 
-##### void postImage(Mat frame, String label);
+#### void postImage(Mat frame, String label);
 
 `postImage` puts an image to the screen with a specified label. E.g.:
 
@@ -33,12 +33,12 @@ stuyvision-lib.
 postImage(frame, "Camera Frame");
 ```
 
-#### OpenCV functions:
+### OpenCV functions:
 
 Unless otherwise stated, you can pass the same Mat as an `input` parameter and
 an `output` parameter, to overwrite the original Mat.
 
-##### void Imgproc.cvtColor(Mat input, Mat output, int code);
+#### void Imgproc.cvtColor(Mat input, Mat output, int code);
 
 Convert the color representation of `input`, and save it in `output`.
 
@@ -48,14 +48,14 @@ convert to and much more, by using different constants. The conversion
 constants are enumerated in the [Imgproc
 JavaDocs](http://docs.opencv.org/java/3.1.0/index.html?org/opencv/imgproc/Imgproc.html).
 
-##### void Core.split(Mat frame, ArrayList<Mat> channels);
+#### void Core.split(Mat frame, ArrayList<Mat> channels);
 ```java
 ArrayList<Mat> channels = new ArrayList<Mat>();
 Core.split(myFrame, channels);
 // The first channel is channels.get(0), the second is channels.get(1), etc.
 ```
 
-##### void Core.merge(ArrayList<Mat> channels, Mat frame);
+#### void Core.merge(ArrayList<Mat> channels, Mat frame);
 
 Merge individual channels into a single multi-channel frame.
 
@@ -66,7 +66,7 @@ Mat merged = new Mat();
 Core.merge(channels, merged);
 ```
 
-##### void Core.inRange(Mat input, Scalar lowerBound, Scalar upperBound, Mat output);
+#### void Core.inRange(Mat input, Scalar lowerBound, Scalar upperBound, Mat output);
 
 Filters the `input` into `output`. A given pixel in `output` is white
 (numerically, 255) if the corresponding input pixel is between `lowerBound` and
@@ -76,7 +76,7 @@ Filters the `input` into `output`. A given pixel in `output` is white
 Core.inRange(hueChannel, new Scalar(80), new Scalar(100), filteredHueChannel);
 ```
 
-##### bitwise operations
+#### bitwise operations
 
 There are several bitwise-operation methods. These do logical operations (like
 AND, OR, NOT) on the pixel values of two Mats. A white pixel is all 1-bits,
@@ -88,13 +88,15 @@ results in a black pixel.
 - `void Core.bitwise_not(Mat input, Mat output);`
 - `void Core.bitwise_xor(Mat input1, Mat input2, Mat output);`
 
+  XOR is "exclusive or". This means OR, but not AND.
+
 For example, you can filter the hue channel and the value channel, and then
-AND them together with Core.bitwise_and to get a Mat filtered by both hue
-and value.
+`bitwise_and` them together with Core.bitwise_and to get a Mat filtered by both
+hue and value.
 
 **These only work if each input Mat has the same number of channels**
 
-##### erode and dilate
+#### erode and dilate
 
 ```java
 Mat Imgproc.getStructuringElement(int shape, Size kernelSize);
@@ -102,7 +104,56 @@ void Imgproc.erode(Mat input, Mat output, Mat kernel);
 void Imgproc.dilate(Mate input, Mat output, Mat kernel);
 ```
 
-#### ArrayList:
+There is more explanation of erode and dilate below (the
+"December 15 Lesson" section).
+
+#### void Imgproc.findContours(Mat image, ArrayList<MatOfPoint> contours, Mat hierarchy, int mode, int method);
+
+Finds contours in `image` using the method specified by `method`, and
+adds them to the list `contours`. Each contour is a `MatOfPoint`, which
+is a matrix of points.
+
+If you don't want to use the hierarchy, you can pass a `new Mat()`.
+
+E.g., find contours with rectilinear boundaries:
+
+```java
+ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+Imgproc.findContours(filteredImage, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+```
+
+Now each member of `contours` is a contour, represented as a `MatOfPoint`.
+
+#### MatOfPoint, MatOfPoint2f
+
+A `MatOfPoint` is a matrix of `Point`s. A `Point` has integer coordinates.
+
+A `MatOfPoint2f` is a matrix of `Point2f`s. A `Point2f` has floating point coordinates.
+
+In certain cases these are basically used as lists of points.
+
+
+Methods:
+- `myMatOfPoints.convertTo(otherMat, conversion)` -- convert the `MatOfPoint` to another type.
+  In particular, you'll probably use the following conversion to convert a `MatOfPoint`
+  to a `MatOfPoint2f`:
+
+  `myMatOfPoints.convertTo(myMatOfPoint2f, CvType.CV_32FC1);`
+
+#### void Imgproc.minEnclosingCircle(MatOfPoint2f points, Point center, float[] radius);
+
+This determines the center and radius of the smallest circle that encloses all
+of the points in `points`.
+
+The only *input parameter* is `points`.
+
+The method tells you the centerpoint by writing to `center` (an *output
+parameter*).
+
+The method tells you the radius by assigning to the first element in the array
+`radius` (an output parameter).
+
+### ArrayList:
 
 An `ArrayList` stores a list of things, and has some methods for gettings the
 things and appending things.
@@ -122,7 +173,7 @@ Methods:
 - many more, all described in the JavaDocs
 
 
-## Dec 15 Lesson
+## December 15 Lesson
 
 In this lesson we discussed methods for smoothing out
 images.
@@ -162,14 +213,20 @@ Color wheel for context:
 
 ![Hue channel color wheel](res/dec-15-hue-channel-wheel.png)
 
-(1) The hue all over the image is blue, and (2) the hue
-at the goal is nasty. The reflexite may have been dirty
-or damaged, but it is *not* a solid color.
+(This shows what hue values, displayed as shades of gray,
+correspond to what colors of the color wheel.)
+
+Note two things:
+1. the hue all over the image is blue
+
+2. the hue at the goal is *not* a solid color (greener at
+   the edges and bluer in the middle). This is probably
+   because the camera's exposure is too high.
 
 These are serious problems (note that we get better images
-than this from the LifeCam), and leads us to a common tool
-in computer vision for improving image quality: image
-smoothing.
+than this with good camera settings), and leads us to
+a common tool in computer vision for improving image
+quality: image smoothing.
 
 ### Smoothing an image
 
