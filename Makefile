@@ -32,5 +32,5 @@ init-bin:
 	mkdir $(BIN)
 
 run:
-	cd build && java -cp $(CLASSPATH) -Djava.library.path=$(OPENCV_LIBS) $(class)
+	java -cp $(CLASSPATH) -Djava.library.path=$(OPENCV_LIBS) $(class)
 
