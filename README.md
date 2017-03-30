@@ -27,6 +27,26 @@ More resources
 [here](https://github.com/Team694/stuyvision-lib#other-cv-resources), in
 stuyvision-lib.
 
+### Working on the school desktops
+
+To develop on the desktops, log in to either a Guest session or your own
+account, then clone this repo and set up your environment:
+
+```bash
+$ git clone https://github.com/Team694/cv-edu-2017
+$ cd cv-edu-2017
+$ source setup-workstation.sh
+```
+
+As usual, use `make` to build:
+
+```bash
+$ make
+# code compiles
+$ make run
+# code runs. Ctrl-C to interrupt (like force quit)
+```
+
 ### StuyVision methods:
 
 #### void postImage(Mat frame, String label);

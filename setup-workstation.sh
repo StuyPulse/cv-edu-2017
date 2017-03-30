@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: check if libraries are installed in /var/tmp/robo-software
+
 software="/var/tmp/robo-software"
 
 export JAVA_HOME="$software/jdk1.8.0_121"
