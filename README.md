@@ -13,11 +13,15 @@ To set up on Windows, see `windows-setup.md` for instructions.
 
 ## Reference
 
+- ReadTheDocs [tutorials](http://opencv-java-tutorials.readthedocs.io/en/latest/02-first-java-application-with-opencv.html)
+  for OpenCV with Java (and GUIs with JavaFX).
+
 - Official OpenCV 3.1.0 [JavaDocs](http://docs.opencv.org/java/3.1.0/).
 
 - Official OpenCV 3.1.0 [documentation](http://docs.opencv.org/3.1.0/). This has
-  much more detail than the JavaDocs, but is quite technical. There are no code
-  examples in Java (all in C/C++).
+  much more detail than the JavaDocs, but is intended for
+  those using OpenCV with C++. There are no examples in Java
+ (all are C/C++).
 
 More resources
 [here](https://github.com/Team694/stuyvision-lib#other-cv-resources), in
