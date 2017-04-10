@@ -12,8 +12,8 @@ import org.opencv.imgproc.Imgproc;
 
 public class Vision extends VisionModule {
 	
-	public IntegerSliderVariable minHue = new IntegerSliderVariable("Min Hue", 26,  0, 255);
-    public IntegerSliderVariable maxHue = new IntegerSliderVariable("Max Hue", 40, 0, 255);
+	public IntegerSliderVariable minHue = new IntegerSliderVariable("Min Hue", 0,  0, 255);
+    public IntegerSliderVariable maxHue = new IntegerSliderVariable("Max Hue", 255, 0, 255);
 	
 	public void run(Mat frame) {
 		postImage(frame, "Camera Feed");
@@ -40,15 +40,12 @@ public class Vision extends VisionModule {
 		Imgproc.cvtColor(frame, frame, Imgproc.COLOR_HSV2BGR);
 		
 		Core.bitwise_and(frame, hueFilterColor, hueFilterColor);
-		
 		postImage(hueFilterColor, "Hue-Filtered Frame (color)");
 		
 		Core.bitwise_not(channels.get(0), channels.get(0));
-		
 		postImage(channels.get(0), "not(Hue-Filtered Frame)");
 		
 		Core.bitwise_and(channels.get(0), channels.get(2), channels.get(2));
-		
 		postImage(channels.get(2), "value but there's a hole");
 		
 		ArrayList<Mat> chaseBankChannels = new ArrayList<Mat>();
