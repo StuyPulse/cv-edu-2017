@@ -11,9 +11,15 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 public class Vision extends VisionModule {
-    public IntegerSliderVariable minHue = new IntegerSliderVariable("Hue Min", 64, 0, 255);
-    public IntegerSliderVariable maxHue = new IntegerSliderVariable("Hue Max", 100, 0, 255);   
-    public IntegerSliderVariable minSat = new IntegerSliderVariable("Sat Min", 64, 0, 255);
+    public IntegerSliderVariable minHue = new IntegerSliderVariable("Hue Min", 0, 0, 255);
+    public IntegerSliderVariable maxHue = new IntegerSliderVariable("Hue Max", 100, 0, 255);      
+
+    public IntegerSliderVariable minSat = new IntegerSliderVariable("Sat Min", 0, 0, 255);
+    public IntegerSliderVariable maxSat = new IntegerSliderVariable("Sat Max", 100, 0, 255);
+
+    public IntegerSliderVariable minVal = new IntegerSliderVariable("Val Min", 0, 0, 255);
+    public IntegerSliderVariable maxVal = new IntegerSliderVariable("Val Max", 100, 0, 255);
+
     public void run(Mat frame) {
         postImage(frame, "Camera Feed");
 
@@ -31,5 +37,18 @@ public class Vision extends VisionModule {
         
         Core.inRange(channels.get(0), new Scalar(minHue.value()), new Scalar(maxHue.value()), channels.get(0));
         postImage(channels.get(0), "Hue-Filtered Frame");
+	
+	Core.inRange(channels.get(1), new Scalar(minSat.value()), new Scalar(maxSat.value()), channels.get(1));
+	postImage(channels.get(1), "Saturation-Filtered Frame");
+	
+	Core.inRange(channels.get(2), new Scalar(minVal.value()), new Scalar(maxVal.value()), channels.get(2));
+	postImage(channels.get(2), "Value-Filtered Frame");
+	
+	Mat HuiSatFiltered = new Mat();
+	Mat HSVFilteredBlue = new Mat();
+	void Core.bitwise_and(channels.get(0), channels.get(1), HuiSatFiltered);
+	postImage(HuiSatFiltered, "Hui and Saturation Filtered");
+	void Core.bitwise_and(HuiSatFiltered, channels.get(2), HSVFilteredBlue);
+	postImage(HSVFilteredBlue, "HSV Filtered for Blue?");
     }
 }
