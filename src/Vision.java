@@ -11,35 +11,25 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 public class Vision extends VisionModule {
+    public IntegerSliderVariable minHue = new IntegerSliderVariable("Hue Min", 64, 0, 255);
+    public IntegerSliderVariable maxHue = new IntegerSliderVariable("Hue Max", 100, 0, 255);   
+    public IntegerSliderVariable minSat = new IntegerSliderVariable("Sat Min", 64, 0, 255);
     public void run(Mat frame) {
         postImage(frame, "Camera Feed");
-   	
-	Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2HSV);
 
-	ArrayList<Mat> channels = new ArrayList<Mat>();
-	Core.split(frame, channels);
-	postImage(channels.get(0), "Hui Channel");
-	postImage(channels.get(1), "Saturation Channel");
-	postImage(channels.get(2), "Value Channel");
-	
-	Mat merged = new Mat();
-	Core.merge(channels, merged);
-	Imgproc.cvtColor(merged, merged, Imgproc.COLOR_HSV2BGR);
-	postImage(merged, "Merged channel");
-   	//should be outputing the same form as CameraFeed
-	
-	//should dilate
-	Mat dilateKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(5, 5));
-	Imgproc.dilate(channels.get(0), channels.get(0), dilateKernel);
-	postImage(channels.get(0), "Dilated hui");
-	
-	//should erode
-	Mat erodeKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(7, 7));
-	Imgproc.erode(channels.get(0), channels.get(0), erodeKernel);
-	postImage(channels.get(0), "Eroded hui");
+        Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2HSV);
 
-	//should blur the merged frame
-	Imgproc.medianBlur(merged, merged, 5);
-	postImage(merged, "Merged RGB channel");
-   }
+        ArrayList<Mat> channels = new ArrayList<Mat>();
+        Core.split(frame, channels);
+        postImage(channels.get(0), "Hui Channel");
+        postImage(channels.get(1), "Saturation Channel");
+        postImage(channels.get(2), "Value Channel");
+
+        Mat grayscale = new Mat();
+        Core.bitwise_not(channels.get(1), grayscale);
+        postImage(grayscale, "Grayscale?");
+        
+        Core.inRange(channels.get(0), new Scalar(minHue.value()), new Scalar(maxHue.value()), channels.get(0));
+        postImage(channels.get(0), "Hue-Filtered Frame");
+    }
 }
