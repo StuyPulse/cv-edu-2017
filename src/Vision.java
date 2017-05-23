@@ -6,8 +6,11 @@ import stuyvision.gui.IntegerSliderVariable;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
+import org.opencv.core.CvType;
 import org.opencv.imgproc.Imgproc;
 
 public class Vision extends VisionModule {
@@ -35,10 +38,15 @@ public class Vision extends VisionModule {
         Mat grayFrame = new Mat();
         Mat invertedFilter = new Mat();
         
+        
         //Used to split the main frame into Channels for parameterization and scaling.
         //Yes, that is a word now.
         ArrayList<Mat> channels = new ArrayList<Mat>();
         Core.split(frame, channels);
+        
+        Mat originalSaturation = new Mat();
+        channels.get(1).copyTo(originalSaturation);
+        //Core.bitwise_and(channels.get(1), originalSaturation, originalSaturation);
         
         //Using slider data in to change the scaling on each of the 3 channels of HSV.
         Core.inRange(channels.get(0), new Scalar(minHue.value()), new Scalar(maxHue.value()), channels.get(0));
@@ -74,6 +82,8 @@ public class Vision extends VisionModule {
         Core.bitwise_and(primaryFilteredChannel, channels.get(2), secondaryFilteredChannel);
         postImage(secondaryFilteredChannel, "Secondary Filtered Channel");
         
+        Mat filteredGray = new Mat();
+        
         //Stores the secondary filter into a Mat with three channels.
         //In order to operate on a frame with bitwise operations, the frames must have the same number of channels.
         //By making a Mat with three channels of the same thing, we are able to use this in bitwise operations with the original frame.
@@ -92,6 +102,20 @@ public class Vision extends VisionModule {
         //If viewed on the color wheel on the second tab, it will appear as a slice of color on a square of black.
         Core.bitwise_and(frame, hueFilteredFrame, filteredHueOnBlack);
         postImage(filteredHueOnBlack, "Filtered Hue on Black");
+        
+        /*ArrayList<Mat> tripleOGSat = new ArrayList<Mat>();
+        
+        tripleOGSat.add(originalSaturation);
+        tripleOGSat.add(originalSaturation);
+        tripleOGSat.add(originalSaturation);
+        
+        Core.merge(tripleOGSat, originalSaturation);*/
+        
+        //Core.bitwise_not(originalSaturation, originalSaturation);
+        
+        //Core.bitwise_xor(filteredHueOnBlack, originalSaturation, filteredGray);
+        
+        //postImage(filteredGray, "Chase Bank but Better than Before?");
         
         //This stores the opposite of the desired frame into the mat specified.
         //i.e: the opposite of filteredHueOnBlack is stored in the Mat invertedFilter.
@@ -137,5 +161,19 @@ public class Vision extends VisionModule {
         
         postImage(frame, "Filtered hue on Gray");
         
-    }
+        /*
+        
+        //Finding the position of the Ball:
+        
+        ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+        Imgproc.findContours(frame, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.drawContours(frame, contours, -1, new Scalar(255,0,0));
+        
+        //Mat contourMat = new Mat();
+        
+        //contourMat.convertTo(contourMat, CvType.CV_32FC1);
+        
+        //postImage(contourMat, "This is probably going to be a really stupid Mat but I don't care because I am the one who is making it.");
+         */
+        }
 }
