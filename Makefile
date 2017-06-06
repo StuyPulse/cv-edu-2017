@@ -11,8 +11,8 @@ BIN = $(PROJECT_ROOT)/build
 OPENCV = $(LIB)/opencv-3.2.0
 OPENCV_SCH = /var/tmp/robo-software/opencv-3.2.0
 
-OPENCV_JAR = $(OPENCV_SCH)/build/bin/opencv-320.jar:$(OPENCV)/build/bin/opencv-320.jar:/usr/local/Cellar/opencv3/3.2.0/share/OpenCV/java/opencv-320.jar
-OPENCV_LIBS = $(OPENCV_SCH)/build/lib/:$(OPENCV)/build/lib/:$(PROJECT_ROOT)/java/x64:/usr/local/Cellar/opencv3/3.2.0/share/OpenCV/java/
+OPENCV_JAR = $(OPENCV_SCH)/build/bin/:$(OPENCV_SCH)/share/OpenCV/java/opencv-320.jar:$(OPENCV)/build/bin/opencv-320.jar:/usr/local/Cellar/opencv3/3.2.0/share/OpenCV/java/opencv-320.jar
+OPENCV_LIBS = $(OPENCV_SCH)/build/lib/:$(OPENCV_SCH)/share/OpenCV/java/:$(OPENCV)/build/lib/:$(PROJECT_ROOT)/java/x64:/usr/local/Cellar/opencv3/3.2.0/share/OpenCV/java/
 
 JAVAC = javac
 CLASSPATH = $(BIN):$(STUYVISION):$(JAVAFX):$(OPENCV_JAR)
