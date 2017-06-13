@@ -27,22 +27,23 @@ public class Vision extends VisionModule {
         
         Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2HSV);
         
-        
         //Instatialixation of Mats used throughout the code onwards.
         //These may not necessarily be in order of use.
         //Okay, this code is mostly a mess, even though I tried to clean it up.
         //TODO: I'm going to need to work on cleaning up this stuff someday.
         Mat primaryFilteredChannel = new Mat();
         Mat secondaryFilteredChannel = new Mat();
+        //The following Mats are only used for color isolation.
+        /*
         Mat hueFilteredFrame = new Mat();
         Mat filteredHueOnBlack = new Mat();
         Mat valuesFrame = new Mat();
         Mat grayFrame = new Mat();
         Mat invertedFilter = new Mat();
-        
+        */
         
         //Used to split the main frame into Channels for parameterization and scaling.
-        //Yes, that is a word now.
+        //Yes, that actually is a word now.
         ArrayList<Mat> channels = new ArrayList<Mat>();
         Core.split(frame, channels);
         
@@ -88,22 +89,34 @@ public class Vision extends VisionModule {
         hueFilteredChannels.add(secondaryFilteredChannel);
         hueFilteredChannels.add(secondaryFilteredChannel);
         hueFilteredChannels.add(secondaryFilteredChannel);
+        //The .drawContours method needs a Mat with three channels to be drawn.
+        //This is true even if the contours are determiend by a single-channel image.
         
         ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
         
         Mat contourMat = new Mat();
         
-        Imgproc.findContours(secondaryFilteredChannel, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+        //This find the contours of from the "secondaryFilteredChannel," stores the points into ArrayList "contours."
+        //The new Mat() is for some sort of Mat Hierarchy feature, which I am not aware of at the moment.
+        //The second to last parameter denotes how contour hierarchies are treated, and how they are stored in the ArrayList.
+        //The final parameter determines which points are stored in the ArrayList to denote a contour.
+        Imgproc.findContours(secondaryFilteredChannel, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
         
         Mat threesome = new Mat();
         
         Core.merge(hueFilteredChannels, threesome);
         
         for(int i = 0; i < contours.size(); i++) {
-            Imgproc.drawContours(threesome, contours, i, new Scalar(255, 0, 0), 3);
+            Imgproc.drawContours(threesome, contours, i, new Scalar(255, 0, 0), 2);
+            //This means that the points stored in the ArrayList "contours" are being drawn into the Mat "threesome."
+            //The for loop is to draw each seperate contour that was found. Which contour to draw is determined by the third parameter.
+                //The numberings of each contour is determined by the second to last parameter in findContours (Contour Retrieval Mode)
+                //This ling <http://docs.opencv.org/trunk/d9/d8b/tutorial_py_contours_hierarchy.html> explains their features well.
+            //The Scalar determiens the color of the contour, choose something other than white or black.
+            //The last number is for the thickness of the line, which I guess might be useful somewhere.
         }
         
-        postImage(threesome, "Contours?");
+        postImage(threesome, "Contours.");
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         //ALL CODE PAST THIS POINT IS FOR COLOR ISOLATION, AND NOT *PARTICULARLY* USEFUL FOR ROBOTICS PURPOSES//
