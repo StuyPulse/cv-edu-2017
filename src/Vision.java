@@ -30,6 +30,8 @@ public class Vision extends VisionModule {
         
         //Instatialixation of Mats used throughout the code onwards.
         //These may not necessarily be in order of use.
+        //Okay, this code is mostly a mess, even though I tried to clean it up.
+        //TODO: I'm going to need to work on cleaning up this stuff someday.
         Mat primaryFilteredChannel = new Mat();
         Mat secondaryFilteredChannel = new Mat();
         Mat hueFilteredFrame = new Mat();
@@ -82,6 +84,32 @@ public class Vision extends VisionModule {
         Core.bitwise_and(primaryFilteredChannel, channels.get(2), secondaryFilteredChannel);
         postImage(secondaryFilteredChannel, "Secondary Filtered Channel");
         
+        ArrayList<Mat> hueFilteredChannels = new ArrayList<Mat>();
+        hueFilteredChannels.add(secondaryFilteredChannel);
+        hueFilteredChannels.add(secondaryFilteredChannel);
+        hueFilteredChannels.add(secondaryFilteredChannel);
+        
+        ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+        
+        Mat contourMat = new Mat();
+        
+        Imgproc.findContours(secondaryFilteredChannel, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+        
+        Mat threesome = new Mat();
+        
+        Core.merge(hueFilteredChannels, threesome);
+        
+        for(int i = 0; i < contours.size(); i++) {
+            Imgproc.drawContours(threesome, contours, i, new Scalar(255, 0, 0), 3);
+        }
+        
+        postImage(threesome, "Contours?");
+        
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //ALL CODE PAST THIS POINT IS FOR COLOR ISOLATION, AND NOT *PARTICULARLY* USEFUL FOR ROBOTICS PURPOSES//
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //But it's great for practice or whatever.
+        /*
         Mat filteredGray = new Mat();
         
         //Stores the secondary filter into a Mat with three channels.
@@ -109,7 +137,7 @@ public class Vision extends VisionModule {
         tripleOGSat.add(originalSaturation);
         tripleOGSat.add(originalSaturation);
         
-        Core.merge(tripleOGSat, originalSaturation);*/
+        Core.merge(tripleOGSat, originalSaturation);
         
         //Core.bitwise_not(originalSaturation, originalSaturation);
         
@@ -175,5 +203,6 @@ public class Vision extends VisionModule {
         
         //postImage(contourMat, "This is probably going to be a really stupid Mat but I don't care because I am the one who is making it.");
          */
+        
         }
 }
