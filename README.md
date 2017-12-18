@@ -47,6 +47,18 @@ $ make run
 # code runs. Ctrl-C to interrupt (like force quit)
 ```
 
+If you encounter an error while running `make run` similar to the one below:
+
+```
+Exception in thread "main" java.lang.UnsatisfiedLinkError: /path/to/cv-edu-2017/lib/opencv-3.0.0/build/lib/libopencv_java300.so: libopencv_photo.so.3.0: cannot open shared object file: No such file or directory
+```
+
+you may need to run the command:
+
+```bash
+$ export LD_LIBRARY_PATH=/path/to/cv-edu-2017/lib/opencv-3.0.0/build/lib/
+```
+
 ### StuyVision methods:
 
 #### void postImage(Mat frame, String label);
