@@ -10,8 +10,8 @@ BIN = $(PROJECT_ROOT)/build
 
 OPENCV = $(LIB)/opencv-3.0.0
 
-OPENCV_JAR = $(OPENCV)/build/bin/opencv-300.jar:$(PROJECT_ROOT)/java/opencv-300.jar:/usr/local/Cellar/opencv3/3.2.0/share/OpenCV/java/opencv-320.jar
-OPENCV_LIBS = $(OPENCV)/build/lib/:$(PROJECT_ROOT)/java/x64:/usr/local/Cellar/opencv3/3.2.0/share/OpenCV/java/
+OPENCV_JAR = /usr/local/Cellar/opencv/3.4.2/share/OpenCV/java/opencv-342.jar
+OPENCV_LIBS = /usr/local/Cellar/opencv/3.4.2/share/OpenCV/java
 
 JAVAC = javac
 CLASSPATH = $(BIN):$(STUYVISION):$(JAVAFX):$(OPENCV_JAR)
@@ -33,4 +33,3 @@ init-bin:
 
 run:
 	cd build && java -cp $(CLASSPATH) -Djava.library.path=$(OPENCV_LIBS) $(class)
-
