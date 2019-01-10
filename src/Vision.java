@@ -11,21 +11,20 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 public class Vision extends VisionModule {
-    public void run(Mat frame) {
-        postImage(frame, "Camera Feed");
 
-        Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2HSV);
+  public IntegerSliderVariable minHue = new IntegerSliderVariable("Min Hue", 0,  0, 255);
+  public IntegerSliderVariable maxHue = new IntegerSliderVariable("Max Hue", 255, 0, 255);
 
-        ArrayList<Mat> channels = new ArrayList<Mat>();
+  public void run(Mat frame) {
+      postImage(frame, "Camera Feed");
 
-        Core.split(frame, channels);
+      Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2HSV);
 
-        postImage(channels.get(0), "Hue channel");
+      ArrayList<Mat> channels = new ArrayList<Mat>();
+      Core.split(frame, channels);
 
-        Mat filtered = new Mat();
+      Core.inRange(channels.get(0), new Scalar(minHue.value()), new Scalar(maxHue.value()), channels.get(0));
+      postImage(channels.get(0), "Hue-Filtered Frame");
 
-        Core.inRange(channels.get(0), new Scalar(150), new Scalar(230), filtered);
-
-        postImage(filtered, "Filtered for teel");
-    }
+  }
 }
